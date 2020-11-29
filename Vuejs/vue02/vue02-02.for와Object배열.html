@@ -34,12 +34,59 @@
         Object Arrary를 바인딩하는 방법 학습.
         Object Arrary 예시)
         var objarray = [
+        { text: 'One', value: 'A' },
+        { text: 'Two', value: 'B' },
+        { text: 'Three', value: 'C' }
+        ];
+
+    </xmp>
+    <script>
+        var objarray = [
             { text: 'One', value: 'A' },
             { text: 'Two', value: 'B' },
             { text: 'Three', value: 'C' }
         ];
+      
+        //1.obj array에 {text: 'Four', value: 'D'} 추가
+        objarray[objarray.length] = { text: 'Four', value: 'D' };
+        objarray.push({ text: 'Four', value: 'D' });
 
-    </xmp>
+        //2. {text: 'Two', value: 'B'}를 {text: '2', value : '2'}로 바꾸시오.
+        objarray[1] = {text: '2', value : '2'} //새롭게 만든다.
+        objarray[1].text = '2'; //수정한다.
+        objarray[1].value = '2';
+
+        //3. {text: 'Three', value: 'C'}를 삭제하시오.
+        //objarray.pop() 배열의 마지막에 있을때  사용
+        objarray.splice(2,1)
+
+        debugger
+        //4. text가 'One' 객체들을 찾으시오.
+        var arrOne = [];
+        // 절차적 처리됨
+        for( var i=0; i<objarray.length; i++) {
+            var obj = objarray[i];
+            if(obg.text === 'One') {
+                // text가 'One'이 있는 객체들을 담을 배열에 추가
+                arrOnd[arrOne.length]=obj;
+            } else {
+            //패스
+            }
+        } 
+        console.log("arrOne", arrOne)
+
+        // 배열에서 찾고자 할 때 필터 메소드를 사용함
+        var arrOne2 = objarray.filter(function(item, index) {
+            if(item.text === 'One') {
+                return true
+            } else {
+                return false
+            }
+        }).map(function(item, index) {
+            return item['price'] = 0
+        })
+        console.log("arrOne2", arrOne2) //{ text: 'One', value: 'A' }
+
+    </script>
 </body>
-
 </html>

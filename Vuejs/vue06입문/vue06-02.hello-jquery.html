@@ -9,15 +9,23 @@
 
 <body>
     <xmp>
-        jQueyry를 사용하여 "Hello, jQery!!!!" 를 출력한다.
+        jQueyry를 사용하여 "Hello, jQuery!!!!" 를 출력한다.
     </xmp>
     <hr />
 
     <div id="app">
-        <p></p>
-        <button>click me</button>
+        <p>Hello, jQuery!!!!</p>
+        <button onclick="">click me</button>
     </div>
-    
+    <script src="../jquery-3.4.1.js"></script>
+    <script>
+        //버튼을 클릭하면, hello, world 출력
+        $(document).ready(function () {
+            $(#app > button).on("click", function () {
+                $('#app>p').text("hello, world");
+            });
+    </script>
+
 </body>
 
 </html>
