@@ -61,9 +61,10 @@
 <script>
     new Vue({
         /* edtmc^2w */
-        el: "app",
+        el: "#app",
         data: {
             sum1: 0,
+            numInput: 0,
             sumInput: 0,
             sum10: 0,
         },
@@ -76,7 +77,7 @@
             },
             clickBtnInput: function(event){
                 console.log(event.target);
-
+                debugger;
                 //input 태그의 value 속성값 가져오기
                 var value = this.$data.numInput; //문자열
                 //문자열  => 숫자 변환 : Number()
@@ -88,9 +89,9 @@
             clickBtn10: function(event){
                 console.log(event.target);
                 //'data-이름' 속성으로 전달되는 값은 event.target.dataSet.이름
-                //예시: data-num="10" ==> event.target.dataSet.num
+                //예시: data-num="10" ==> event.target.dataset.num
                 debugger;
-                var num = event.target.dataSet.num; //문자열
+                var num = event.target.dataset.num; //문자열
                  //문자열  => 숫자 변환 : Number()
                  var num2 = Number(num);
                  //this.$data.sum10 = this.$data.sum10 + num2;
