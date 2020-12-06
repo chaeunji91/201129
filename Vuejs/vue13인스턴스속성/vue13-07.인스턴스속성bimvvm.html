@@ -35,3 +35,54 @@
 </html>
 
 <!-- vue 플러그인 임포트   -->
+
+<!-- vue 플러그인 임포트   -->
+<script src="https://unpkg.com/vue@2.5.16/dist/vue.js">/* vue 플러그인 임포트 */</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"> /* JSX를 자바스크립트로 변환 */</script>
+<script src="https://unpkg.com/vuex@3.3.0/dist/vuex.js"> /* vuex 플러그인 임포트 */</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"> /* axios 플러그인 임포트 */</script>
+<script src="https://unpkg.com/vue-router@3.1.6/dist/vue-router.js"> /* vue 라우터 플러그인 임포트 */</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"> /* jQuery library */</script>
+<script>
+    new Vue({
+        /* edtmc^2w */
+        el: "#my",
+        data: {
+            message : "change message at mounted"
+        },
+        //template: ``,
+        methods: {
+            doClick : function(event){
+                console.log(event.target);
+                var time = new Date().toLocaleDateString()
+                this.$set(this.$data,"message","change message when a button clicked!!!" + time); //객체, 배열이 아니므로, 이름을 적지 않고 씀
+                
+            }
+        },
+        components: {
+    
+        }, 
+        computed: {
+    
+        },
+        watch: {
+    
+        },
+        mounted: function() { //로딩될때 처음
+            console.log("mounted");
+            window.setTimeout(()=>{ //function을 =>로 바꿔서 사용하거나~
+                console.log(this);
+                this.$set(this.$data,"message","change message after 3 seconds!!!");
+            }, 3000); //3000ms=3s
+            var self = this; //function을 사용할 때는 this를 self에 넣어놓은 뒤 사용
+            window.setTimeout(function(){
+                console.log(self);
+                self.$set(self.$data,"message","change message after 5 seconds!!!");
+            }, 5000); 
+        },
+        updated: function() { //f12 누르고, 버튼 계속 누를때마다 새로고침 되면서 값이 바뀌면,  무조건 업데이트 발생
+            console.log("updated");
+        },
+    });
+    
+</script>
