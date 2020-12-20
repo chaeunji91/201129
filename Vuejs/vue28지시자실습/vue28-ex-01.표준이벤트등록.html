@@ -66,7 +66,7 @@
             a 태그에 click 이벤트 핸들러를 작성하시오. ==> imageclick
         </xmp>
         <ul>
-            <li> 
+            <li>
                 <a class="image3" href="../images/image3.jpg" v-on:click="imageclick">
                     강아지 사진
                 </a>
@@ -86,12 +86,12 @@
             이미지에 mouseover 와 mouseout 이벤트를 핸들러를 작성하시오.
             mouseover 이벤트를 핸들러 ==> imageover
             mouseout 이벤트를 핸들러 ==> imageout
-            
+
             이미지 위에 마우스를 내리면(mouseout ) ==> ../images/but1.gif , ../images/img_swap_off.png
             이미지 위에 마우스를 올리면(mouseover) ==> ../images/but2.gif , ../images/img_swap_on.png
         </xmp>
-        <img v-bind:src="img_but1" id="but1" />
-        <img v-bind:src="img_swap" id="img-swap" />
+        <img v-bind:src="img_but1" id="but1" v-on:mouseover="imageover" v-on:mouseout="imageout" />
+        <img v-bind:src="img_swap" id="img-swap" v-on:mouseover="imageover" v-on:mouseout="imageout" />
         <hr />
 
         <xmp>
@@ -100,11 +100,14 @@
             span에 mouseup 이벤트 핸들러를 작성하시오. ==> spanmouseup. background-color를 pink로 설정
             span에 mouseout 이벤트 핸들러를 작성하시오. ==> spanmouseout. background-color를 red로 설정
         </xmp>
-        <span>
+        <span v-on:mouseover="spanmouseover" v-on:mousedown="spanmousedown" v-on:mouseup="spanmouseup"
+            v-on:mouseout="spanmouseout">
         </span>
-        <span>
+        <span v-on:mouseover="spanmouseover" v-on:mousedown="spanmousedown" v-on:mouseup="spanmouseup"
+            v-on:mouseout="spanmouseout">
         </span>
-        <span>
+        <span v-on:mouseover="spanmouseover" v-on:mousedown="spanmousedown" v-on:mouseup="spanmouseup"
+            v-on:mouseout="spanmouseout">
         </span>
         <hr />
 
@@ -112,12 +115,12 @@
             select 에 change 이벤트 핸들러를 작성하시오.
             change 이벤트 핸들러: selectchange
         </xmp>
-        <select id="sel">
+        <select id="sel" v-on:change="selectchange">
             <option value="../images/strawberry.gif">딸기</option>
             <option value="../images/banana.gif">바나나</option>
             <option value="../images/apple.gif" selected>사과</option>
         </select>
-        
+
         <img id="img" v-bind:src="img_select" />
         <hr />
 
@@ -127,13 +130,13 @@
             focus 이벤트 핸들러 ==> inputfocus. outline: 2px dotted red 설정
             blur 이벤트 핸들러 ==> inputblur. outline: none 설정
         </xmp>
-        <input type="text" id="ID" />
+        <input type="text" id="ID" v-on:blur="inputblur" v-on:focus="inputfocus" />
         <hr />
 
     </div>
-    
 
-    
+
+
 </body>
 
 </html>
@@ -151,34 +154,92 @@
         /* edtmc^2w */
         el: "#app",
         data: {
-            img_image3: "",
-
-            img_but1: "",
-            img_swap: "",
-
+            img_image3: null,
+            img_but1: "../images/but1.gif",
+            img_swap: "../images/img_swap_off.png",
+            img_select: null,
+            /* 데이터에 등록한다. */
         },
-        //template: ``,
+        template: `#template`,
         methods: {
-            imageclick : function(event) {
+            imageclick: function (event) {
                 console.log(event.target);
+                // <a href="../images/image3.jpg"/>에서 href 속성을 가져오려면, event.target.href 
+                var href = event.target;
+
+                this.$data.img_image3 = href;
+                this.$set(this.$data, "img_image3", href);
+
+
+                //문제점. a태그의 redirect발생
+                //어떻게 redirect 막을 수 있는가? => 이벤트 취소 이용
+                event.stopPropagation();
+                event.preventDefault();
+            },
+            imageover: function (event) {
+                console.log("imageover", event.target);
+                //<img v-bind:src="img_but1" id="but1">에서 어떻게 id값을 얻을 수 있을까?
+                //event.target.id ==> img_but1
+                var id = event.target.id;
+                if (id === "but1") {
+                    //this.$data.img_but1 = "../images/but2.gif"
+                    this.$set(this.$data, "img_but1", "../images/but2.gif")
+                }
+                else {
+                    //this.$data.img_swap = "../images/img_swap_on.png";
+                    this.$set(this.$data, "img_swap", "../images/img_swap_on.png")
+                }
+            },
+            imageout: function (event) {
+                console.log("imageout", event.target);
+
+                //<img v-bind:src="img_but1" id="but1">에서 어떻게 id 값을 얻을 수 있을까?
+                var id = event.target.id;
+                if (id === "but1") {
+                    this.$set(this.$data, "img_but1", "../images/but1.gif")
+                }
+                else {
+                    this.$set(this.$data, "img_swap", "../images/img_swap_off.png")
+                }
+            },
+            spanmouseover: function (event) {
+                //박스에 mouseover 시 background-color를 yellow로
+                //span style="background-color:yellow;"
+                event.target.style.backgroundColor = "yellow";
+            },
+            spanmousedown: function (event) {
+                //박스에 mousedown 시 background-color를 blue로
+                //span style="background-color:blue;"
+                event.target.style.backgroundColor = "blue";
+            },
+            spanmouseup: function (event) {
+                //박스에 mouseup 시 background-color를 pink로
+                //span style="background-color:pink;"
+                event.target.style.backgroundColor = "pink";
+            },
+            spanmouseout: function (event) {
+                //박스에 mouseout 시 background-color를 red로
+                //span style="background-color:red;"
+                event.target.style.backgroundColor = "red";
+            },
+            selectchange: function (event) {
+                console.log("selectchange", event.target.value);
+
+                var value = event.target.value; //selected 값이다.
+                //this.$data.img_select = value;
+                this.$set(this.$data, "img_select", value);
+            },
+            inputblur: function (event) {
+                console.log("inputblur", event.target);
+                //blur 이벤트 핸들러 ==> inputblur.outline: none설정
+                event.target.style.outline = "none";
+            },
+            inputfocus: function (event) {
+                console.log("inputfocus", event.target);
+                // focus 이벤트 핸들러 ==> inputfocus.outline: 2px dotted red 설정
+                event.target.style.outline = "2px dotted red";
             }
         },
-        components: {
-    
-        }, 
-        computed: {
-    
-        },
-        watch: {
-    
-        },
-        mounted: function() {
-            console.log("mounted");
-        },
-        updated: function() {
-            console.log("updated");
-        },
     });
-    
-</script>
 
+</script>
